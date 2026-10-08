@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b1220">
+    <title>Network Intrusion Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
+</head>
+<body>
+    <main class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="/" aria-label="Network Intrusion Detection System dashboard">
+                <span class="brand-mark" aria-hidden="true">N</span>
+                <span class="brand-name">NIDS</span>
+            </a>
+            <div class="status-panel" role="status" aria-live="polite">
+                <span class="status-dot" id="status-dot"></span>
+                <span class="status-label">NIDS STATUS</span>
+                <strong id="nids-status">MONITORING STOPPED</strong>
+            </div>
+        </header>
+
+        <section class="monitor-controls panel" aria-label="NIDS monitoring controls">
+            <div>
+                <p class="eyebrow">MONITOR CONTROL</p>
+                <p id="monitor-action-message" class="control-message" role="status" aria-live="polite"></p>
+            </div>
+            <div class="control-buttons">
+                <button id="start-monitoring" class="control-button start-button" type="button">START MONITORING</button>
+                <button id="stop-monitoring" class="control-button stop-button" type="button" disabled>STOP MONITORING</button>
+                <button id="clear-session" class="control-button clear-button" type="button">CLEAR SESSION DATA</button>
+            </div>
+        </section>
+
+        <section class="hero">
+            <p class="eyebrow">NETWORK SECURITY MONITORING</p>
+            <h1>Network Intrusion Detection System</h1>
+            <p class="hero-subtitle">Real-Time Network Security Monitoring</p>
+            <p class="hero-copy">Monitoring network traffic for suspicious activity including monitored ports, TCP SYN activity, possible port scans, and high-rate traffic. Indicators are not proof of malicious activity.</p>
+            <p id="api-error" class="error-message" role="alert" hidden>Unable to retrieve NIDS data.</p>
+        </section>
+
+        <section class="dashboard-section" aria-labelledby="packet-stats-heading">
+            <div class="section-heading">
+                <div><p class="eyebrow">CURRENT SESSION</p><h2 id="packet-stats-heading">Packet statistics</h2></div>
+                <span class="refresh-note"><span class="refresh-dot" aria-hidden="true"></span> Refreshes every 3 seconds</span>
+            </div>
+            <div class="metric-grid">
+                <article class="metric-card">
+                    <p class="metric-label">Packets Processed</p>
+                    <p class="metric-value" id="packets">—</p>
+                    <p class="metric-caption">Packets analyzed this session</p>
+                </article>
+                <article class="metric-card">
+                    <p class="metric-label">Total Detections</p>
+                    <p class="metric-value" id="detections">—</p>
+                    <p class="metric-caption">Indicators recorded</p>
+                </article>
+                <article class="metric-card severity-card low-card">
+                    <p class="metric-label">Low Alerts</p>
+                    <p class="metric-value" id="low">—</p>
+                    <span class="severity-tag low">LOW</span>
+                </article>
+                <article class="metric-card severity-card medium-card">
+                    <p class="metric-label">Medium Alerts</p>
+                    <p class="metric-value" id="medium">—</p>
+                    <span class="severity-tag medium">MEDIUM</span>
+                </article>
+                <article class="metric-card severity-card high-card">
+                    <p class="metric-label">High Alerts</p>
+                    <p class="metric-value" id="high">—</p>
+                    <span class="severity-tag high">HIGH</span>
+                </article>
+            </div>
+        </section>
+
+        <section class="dashboard-section" aria-labelledby="threat-stats-heading">
+            <div class="section-heading">
+                <div><p class="eyebrow">BEHAVIORAL INDICATORS</p><h2 id="threat-stats-heading">Threat statistics</h2></div>
+                <span class="section-caption">Indicators only · not confirmed attacks</span>
+            </div>
+            <div class="threat-grid">
+                <article class="metric-card threat-card">
+                    <span class="threat-icon scan-icon" aria-hidden="true">↗</span>
+                    <div><p class="metric-label">Possible Port Scans</p><p class="metric-value" id="port-scans">—</p></div>
+                </article>
+                <article class="metric-card threat-card">
+                    <span class="threat-icon dos-icon" aria-hidden="true">⌁</span>
+                    <div><p class="metric-label">Possible DoS / Flood</p><p class="metric-value" id="dos-alerts">—</p></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel log-panel" aria-label="Log status">
+            <div class="log-copy">
+                <p class="eyebrow">PERSISTENT RECORDS</p>
+                <h2>Detection log</h2>
+            </div>
+            <div class="log-detail"><span>Log file</span><code id="log-file">Loading…</code></div>
+            <div class="log-detail"><span>Logged detections</span><strong id="logged-detections">—</strong></div>
+        </section>
+
+        <section class="panel alerts-panel" aria-labelledby="recent-alerts-heading">
+            <div class="section-heading alerts-heading">
+                <div><p class="eyebrow">LATEST EVENTS</p><h2 id="recent-alerts-heading">Recent alerts</h2></div>
+                <span class="section-caption">Latest 10 · newest first</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Time</th><th scope="col">Type</th><th scope="col">Severity</th>
+                            <th scope="col">Source IP</th><th scope="col">Destination IP</th><th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alerts-body" aria-live="polite">
+                        <tr><td colspan="6" class="empty-state">Loading alerts…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <span>NIDS · COLLEGE PROJECT</span>
+            <span>Local monitoring dashboard</span>
+        </footer>
+    </main>
+</body>
+</html>
